@@ -1,4 +1,4 @@
-// insert.js
+
 const { MongoClient } = require("mongodb");
 
 async function run() {
@@ -7,7 +7,6 @@ async function run() {
     await client.connect();
     const db = client.db("steam_clone");
 
-    // Почистваме колекциите за нов старт
     await Promise.all([
       db.collection("users").deleteMany({}),
       db.collection("games").deleteMany({}),
@@ -16,7 +15,6 @@ async function run() {
       db.collection("developers").deleteMany({}),
     ]);
 
-    // Колекция users
     const users = Array.from({ length: 10 }, (_, i) => ({
       username: `user${i + 1}`,
       email: `user${i + 1}@mail.com`,
@@ -29,7 +27,6 @@ async function run() {
     }));
     await db.collection("users").insertMany(users);
 
-    // Колекция games
     const games = [
       { title: "CS2", genre: "Shooter", price: 0, rating: 9.1, tags: ["fps", "competitive"] },
       { title: "Dota 2", genre: "MOBA", price: 0, rating: 8.5, tags: ["strategy", "team"] },
@@ -44,7 +41,6 @@ async function run() {
     ];
     await db.collection("games").insertMany(games);
 
-    // Колекция reviews
     const reviews = [];
     for (let i = 1; i <= 10; i++) {
       reviews.push({
@@ -57,7 +53,6 @@ async function run() {
     }
     await db.collection("reviews").insertMany(reviews);
 
-    // Колекция purchases
     const purchases = [];
     for (let i = 1; i <= 10; i++) {
       purchases.push({
@@ -68,8 +63,7 @@ async function run() {
       });
     }
     await db.collection("purchases").insertMany(purchases);
-
-    // Колекция developers
+    
     const developers = [
       { name: "Valve", founded: 1996, games: ["CS2", "Dota 2"], country: "USA" },
       { name: "Bluehole", founded: 2007, games: ["PUBG"], country: "South Korea" },
